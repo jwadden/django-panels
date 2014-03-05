@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    <meta charset = "utf-8">
+    <title>Archives</title>
+    <!--[if lt IE 9]>
+        <script src = "http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src = "{{ media_url }}general/js/jquery-1.7.2.min.js" type = "text/javascript"></script>
+    <script src = "{{ media_url }}comic/js/archive.js" type = "text/javascript"></script>
+    <link rel = "stylesheet" href = "{{ media_url }}comic/css/comic.css" />
+    <link rel = "stylesheet" href = "{{ media_url }}comic/css/archive.css" />
+    <link rel = "stylesheet" href = "{{ media_url }}comic/css/magnitude.css" />
+    <style>
+    #tagHeader {
+    {% if filtered_for_tag %}
+        display: inline;
+    {% else %}
+        display: none;
+    {% endif %}
+    }
+    </style>
+</head>
+<body>
+    <header id = "mainHeader">
+        <h1>{{ comic_title }}</h1>
+        <h2>{{ comic_description }}</h2>
+    </header>
+    <nav id = "siteNav">
+        <ul>
+            <li><a href = "{{ root_url }}">Main</a></li>
+            {% for static_page in static_pages %}
+            <li><a href = "{{ root_url }}{{ static_page.slug }}/">{{ static_page.title }}</a></li>
+            {% endfor %}
+            <li><a href = "{{ root_url }}rss">RSS</a></li>
+        </ul>
+    </nav>
+    
+    <section id = "pageList" class = "contentBox">
+        <header>
+            <h1>Archives<span id = "tagHeader"> for <span id = "currentTag">{{ selected_tag }}</span></span></h1>
+        </header>
+        <article>
+            <ul>
+            {% for page in pages %}
+                <li><a href = "/page/{{ page.slug|escape }}/" title = "{{ page.list_date.date }}">{{ page.title|escape }}</a></li>
+            {% endfor %}
+            </ul>
+        </article>
+    </section>
+    
+    <section id = "tagCloud" class = "contentBox">
+        <header>
+            <h1>Tags</h1>
+        </header>
+        {% if display_tagtype_selector %}
+        <p id = "tagTypeSelector">
+            <label for = "tagTypeList">Tag type:</label>
+            <select id = "tagTypeList">
+                <option value = "">all</option>
+            {% for tag_type in tag_types %}
+                <option>{{ tag_type.name|escape }}</option>
+            {% endfor %}
+            </select>
+        </p>
+        {% endif %}
+        
+        <ul id = "tagList">
+        {% for tag in all_tags %}
+            <li class = "tag {{ tag.object.tag_type.name|escape }} magnitude-{{ tag.magnitude}}{% if tag.object.name == selected_tag %} selected{% endif %}"><a href = "/archive/{{ tag.object.name|escape }}/">{{ tag.object.name|escape }}</a></li>
+        {% endfor %}
+        </ul>
+    </section>
+</body>
+</html>

@@ -1,0 +1,54 @@
+h1 {
+    margin: 0;
+    padding: 0;
+}
+
+#pageList {
+    float: left;
+    width: 40em;
+}
+
+#pageList ul {
+    list-style: none;
+    margin: 0.5em 0 0 0;
+    padding: 0;
+}
+
+#pageList a {
+    text-decoration: none;
+}
+
+#tagCloud {
+    margin: 1em 0 0 5em;
+    padding: 0;
+    float: left;
+    clear: right;
+}
+
+#tagCloud p {
+    margin: 0.5em 1em;
+}
+
+#tagList {
+    list-style: none;
+    width: 20em;
+    margin: 0.5em;
+    padding: 0;
+    border-radius: 1em;
+    background-color: #E9E9E9;
+}
+
+#tagList li {
+    display: inline-block;
+    margin: 0;
+    padding: 0.25em 0.5em;
+}
+
+#tagList a {
+    text-decoration: none;
+}
+
+#tagList .selected {
+    background-color: #AAAACC;
+    border-radius: 1em;
+}

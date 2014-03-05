@@ -1,0 +1,36 @@
+<?xml version = "1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+    <title>{{ comic_title|escape }}</title>
+    <description>{{ feed_description }}</description>
+    <link>{{ link|escape }}</link>
+    {% for page in pages %}
+    <item>
+        <title>{{ page.title|escape }}</title>
+        <description><![CDATA[
+            <div id = "comicImage">
+                <img src = "{{ page.image.url }}" alt = "{{ page.title|escape }}" />
+            </div>
+            <ul id = "comicTags">
+            {% for tag in page.tags.all %}
+                <li class = "tag {{ tag.tag_type|escape }}"><a href = "{{ link|escape }}archive/{{ tag.name|escape }}/">{{ tag.name|escape }}</a></li>
+            {% endfor %}
+            </ul>
+            <div id = "comicNotes">
+            {% for note in page.note_set.all %}
+                <h1>
+                    {{ note.title }}
+                </h1>
+                <article>
+                    {{ note.text|safe }}
+                </article>
+            {% endfor %}
+            </div>
+        ]]></description>
+        <link>{{ link|escape }}pages/{{ page.slug|escape }}</link>
+        <guid>{{ link|escape }}pages/{{ page.slug|escape }}</guid>
+        <pubDate>{{ page.list_date.datetime|date:"r" }}</pubDate>
+    </item>
+    {% endfor %}
+</channel>
+</rss>

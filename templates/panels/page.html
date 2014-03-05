@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    {% load comments %}
+    {% get_comment_count for page as comment_count %}
+    <meta charset = "utf-8">
+    <title>{{ comic_title }}</title>
+    <!--[if lt IE 9]>
+        <script src = "http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src = "{{ media_url }}general/js/jquery-1.7.2.min.js" type = "text/javascript"></script>
+    <script src = "{{ media_url }}comic/js/panels.js" type = "text/javascript"></script>
+    <link rel = "stylesheet" href = "{{ media_url }}comic/css/panels.css" />
+    <link rel = "stylesheet" href = "{{ media_url }}comic/css/page.css" />
+    <link rel="alternate" type = "application/rss+xml" title = "RSS" href = "{{ root_url }}/rss/" />
+    <script type = "text/javascript">
+    var firstSlug = '{{ first.slug|escapejs }}';
+{% if prev %}
+    var prevSlug = '{{ prev.slug|escapejs }}';
+    var prevImageUrl = '{{ prev.image.url|escapejs }}';
+{% else %}
+    var prevSlug = null;
+    var prevImageUrl = null;
+{% endif %}
+{% if next %}
+    var nextSlug = '{{ next.slug|escapejs }}';
+    var nextImageUrl = '{{ next.image.url|escapejs }}';
+{% else %}
+    var nextSlug = null;
+    var nextImageUrl = null;
+{% endif %}
+    var latestSlug = '{{ latest.slug|escapejs }}';
+    
+    var currentImageUrl = '{{ page.image.url|escapejs }}';
+    
+    var rootUrl = '{{ root_url|escapejs }}';
+    
+    {% if display_social_buttons %}
+    var displaySocialButtons = true;
+    {% else %}
+    var displaySocialButtons = false;
+    {% endif %}
+    
+    </script>
+    <style>
+    {% if prev %}
+    #prevPage .link {
+        display: block;
+    }
+    #prevPage .noLink {
+        display: none;
+    }
+    #firstPage .link {
+        display: block;
+    }
+    #firstPage .noLink {
+        display: none;
+    }
+    {% else %}
+    #prevPage .link {
+        display: none;
+    }
+    #prevPage .noLink {
+        display: block;
+    }
+    #firstPage .link {
+        display: none;
+    }
+    #firstPage .noLink {
+        display: block;
+    }
+    {% endif %}
+    
+    {% if next %}
+    #nextPage .link {
+        display: block;
+    }
+    #nextPage .noLink {
+        display: none;
+    }
+    #latestPage .link {
+        display: block;
+    }
+    #latestPage .noLink {
+        display: none;
+    }
+    {% else %}
+    #nextPage .link {
+        display: none;
+    }
+    #nextPage .noLink {
+        display: block;
+    }
+    #latestPage .link {
+        display: none;
+    }
+    #latestPage .noLink {
+        display: block;
+    }
+    {% endif %}
+    {% if comment_count < 1 %}
+    #comments .noComments {
+        display: block;
+    }
+    #comments .oneComment, #comments .someComments {
+        display: none;
+    }
+    {% elif comment_count == 1 %}
+    #comments .oneComment {
+        display: block;
+    }
+    #comments .noComments, #comments .someComments {
+        display: none;
+    }
+    {% else %}
+    #comments .someComments {
+        display: block;
+    }
+    #comments .noComments, #comments .oneComment {
+        display: none;
+    }
+    {% endif %}
+    
+    #comicPaging .loading {
+        display: none;
+    }
+    </style>
+</head>
+<body>
+    <header id = "mainHeader">
+        <h1>{{ comic_title }}</h1>
+        <h2>{{ comic_description }}</h2>
+    </header>
+    <nav id = "siteNav">
+        <ul>
+            <li><a href="{{ root_url }}archive">Archive</a></li>
+            {% for static_page in static_pages %}
+            <li><a href="{{ root_url }}{{ static_page.slug }}/">{{ static_page.title }}</a></li>
+            {% endfor %}
+            <li><a href="{{ root_url }}rss">RSS</a></li>
+        </ul>
+    </nav>
+    <section id = "comicData" class = "contentBox">
+        <header>
+            <h1>{{ page.title|escape }}</h1>
+        </header>
+        <article>
+            <div id = "comicImage">
+                <img src = "{{ page.image.url }}" alt = "" />
+                <nav id = "comicPaging">
+                    <div id = "firstPage">
+                        <a class = "link" href = "/page/{{ first.slug|escape }}/" rel = "start"><span class = "invisibleText">First</span></a>
+                        <span class = "noLink"><span class = "invisibleText">First</span></span>
+                    </div>
+                    <div id = "prevPage">
+                        <a class = "link"  href = "{% if prev %}/page/{{ prev.slug|escape }}/{% endif %}" rel = "prev"><span class = "invisibleText">Previous</span></a>
+                        <span class = "noLink"><span class = "invisibleText">Previous</span></span>
+                    </div>
+                    <div id = "nextPage">
+                        <a class = "link"  href = "{% if next %}/page/{{ next.slug|escape }}/{% endif %}" rel = "next prefetch"><span class = "invisibleText">Next</span></a>
+                        <span class = "noLink"><span class = "invisibleText">Next</span></span>
+                    </div>
+                    <div id = "latestPage">
+                        <a class = "link"  href = "/page/{{ latest.slug|escape }}/"><span class = "invisibleText">Latest</span></a>
+                        <span class = 'noLink'><span class = "invisibleText">Latest</span></span>
+                    </div>
+                    <div class = "loading">
+                        Loading...
+                    </div>
+                </nav>
+            </div>
+            <a id = "permalink" href = "/page/{{ page.slug|escape }}/">
+                <time datetime = "{{ page.list_date.date|date:"Y-m-d"}}" pubdate = "pubdate">{{ page.list_date.date|date:"F j, Y" }}</time>
+            </a>
+            
+            <ul id = "comicTags">
+                <lh>Tags:</lh>
+                {% for tag in page.tags.all %}
+                <li class = "tag {{ tag.tag_type|escape }}"><a href = "/archive/{{ tag.name|escape }}/">{{ tag.name|escape }}</a></li>
+                {% endfor %}
+            </ul>
+        </article>
+        <section id = "comments">
+            <p>
+                <a id = "commentLink" href = "/page-comments/{{ page.slug }}">
+                    <span class = "noComments">Leave a comment</span>
+                    <span class = "oneComment"><span class = "commentCount">1</span> comment</span>
+                    <span class = "someComments"><span class = "commentCount">{{ comment_count }}</span> comments</span>
+                </a>
+            </p>
+        </section>
+        {% if display_social_buttons %}
+        <section id = "social">
+            <!-- Lockerz Share BEGIN -->
+            <a id = "lockerzLink" href="http://www.addtoany.com/share_save?linkurl={{ root_url|iriencode }}page/{{ page.slug|iriencode }}&amp;linkname={{ page.title|iriencode }}"><img src="http://static.addtoany.com/buttons/share_save_171_16.png" width="171" height="16" border="0" alt="Share"/></a>
+            <!-- Lockerz Share END -->
+        </section>
+        {% endif %}
+    </section>
+    <section id = "comicNotes">
+    {% for note in page.note_set.all %}
+        <section class = "contentBox">
+            <header>
+                <h1>{% if note.title %}{{ note.title }}{% else %}Notes{% endif %}</h1>
+            </header>
+            <article>
+                {{ note.text|safe }}
+            </article>
+        </section>
+    {% endfor %}
+    </section>
+</body>
+</html>
