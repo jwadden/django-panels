@@ -1,5 +1,4 @@
 from django.db import models
-from uuslug import uuslug
 from datetime import datetime
 
 class TagType(models.Model):
@@ -21,13 +20,13 @@ class Page(models.Model):
     create_date = models.DateTimeField('date created', auto_now_add = True)
     modify_date = models.DateTimeField('date modified', auto_now = True)
     tags = models.ManyToManyField(Tag, blank = True, default = None)
-    image = models.ImageField('comic image file', upload_to = 'panels/page_images')
+    image = models.FileField('comic image file', upload_to = 'panels/page_images') #TODO: Make this an ImageField when support for that field is available in Python 3
     
     def get_absolute_url(self, is_xml = False):
         if (is_xml):
-            return "/page_xml/%s/" % self.slug
+            return "/page_xml/%s-%d/" % self.slug, self.id
         else:
-            return "/page/%s/" % self.slug
+            return "/page/%s-%d/" % self.slug, self.id
     def save(self, *args, **kwargs):
         # Populate the list date field
         if (self.list_date is None):
@@ -36,10 +35,6 @@ class Page(models.Model):
         # Populate the title
         if (not self.title):
             self.title = 'Comic for ' + self.list_date.strftime("%Y-%m-%d")
-        
-        # Populate the slug field
-        if (not self.slug):
-            self.slug = uuslug(self.title, instance=self)
         
         super(Page, self).save(*args, **kwargs)
     def __unicode__(self):
@@ -55,15 +50,8 @@ class StaticPage(models.Model):
     title = models.CharField('title', max_length=30, blank = False)
     content = models.TextField('content')
     
-    def save(self, *args, **kwargs):
-        # Populate the slug field
-        if (not self.slug):
-            self.slug = uuslug(self.title, instance=self)
-            
-        super(StaticPage, self).save(*args, **kwargs)
-    
     def get_absolute_url(self):
-        return '/' + self.slug + '/'
+        return "/%s-%d/" % self.slug, self.id
         
     def __unicode__(self):
         return self.title

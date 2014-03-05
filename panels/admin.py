@@ -20,6 +20,7 @@ class PageAdmin(admin.ModelAdmin):
     ]
     inlines = [NoteInline,]
     ordering = ('-list_date',)
+    prepopulated_fields = {"slug": ("title",)}
     
 class StaticPageAdmin(admin.ModelAdmin):
     fields = ('title', 'content')
@@ -28,6 +29,7 @@ class StaticPageAdmin(admin.ModelAdmin):
             settings.MEDIA_URL + 'general/js/tiny_mce/tiny_mce.js',
             settings.MEDIA_URL + 'panels/js/admin/textareas.js',
         )	
+    prepopulated_fields = {"slug": ("title",)}
 	
 admin.site.register(Page, PageAdmin)
 admin.site.register(Tag)
