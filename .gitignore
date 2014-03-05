@@ -1,0 +1,4 @@
+*.pyc
+panelstest/settings_local.py
+db.sqlite3
+panels/media/*
