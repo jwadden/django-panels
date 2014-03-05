@@ -1,6 +1,5 @@
 <?xml version = "1.0" encoding="UTF-8" ?>
 <page>
-    {% load comments %}
     <title>{{ page.title|escape }}</title>
     <list-date datetime = "{{ page.list_date.date|date:"Y-m-d"}}">{{ page.list_date.date|date:"F j, Y" }}</list-date>
     <slug>{{ page.slug }}</slug>
@@ -29,5 +28,4 @@
     {% if prev %}
     <prev-slug>{{ prev.slug }}</prev-slug>
     {% endif %}
-    <comment-count>{% get_comment_count for page as comment_count %}{{ comment_count }}</comment-count>
 </page>

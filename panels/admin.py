@@ -14,7 +14,7 @@ class NoteInline(admin.StackedInline):
 class PageAdmin(admin.ModelAdmin):
     filter_horizontal = ('tags',)
     fieldsets = [
-        (None, {'fields': ['title', 'image']}),
+        (None, {'fields': ['title', 'slug', 'image']}),
         ('Date Information', {'fields': ['pub_date', 'list_date']}),
         ('Extra Information', {'fields': ['tags']}),
     ]
@@ -23,7 +23,7 @@ class PageAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
     
 class StaticPageAdmin(admin.ModelAdmin):
-    fields = ('title', 'content')
+    fields = ('title', 'slug', 'content')
     class Media:
         js = (
             settings.MEDIA_URL + 'general/js/tiny_mce/tiny_mce.js',

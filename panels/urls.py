@@ -5,7 +5,6 @@ admin.autodiscover()
 
 urlpatterns = patterns('panels.views',
     url(r'^$', 'index', name='index'),
-    url(r'^page-comments/(?P<page_id>[\w\d\-]+)/$', 'page_comments'),
     url(r'^page(?P<xml_string>["-xml"]*)/(?P<page_id>[\w\d\-]+)/$', 'page'),
     url(r'^archive(?P<xml_string>["-xml"]*)/(?P<selected_tag>[\w\d\s]+)/$', 'archive'),
     url(r'^archive(?P<xml_string>["-xml"]*)/$', 'archive'),
