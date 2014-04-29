@@ -36,7 +36,7 @@
 }
 
 #comicImage #prevPage .link {
-    background: transparent url('/comic/template_images/left_arrow.png') no-repeat center center;
+    background: transparent url('/static/template_images/left_arrow.png') no-repeat center center;
 }
 
 #comicImage  .link:hover {
@@ -54,7 +54,7 @@
 }
 
 #comicImage #nextPage .link  {
-    background: transparent url('/comic/template_images/right_arrow.png') no-repeat center center;
+    background: transparent url('/static/template_images/right_arrow.png') no-repeat center center;
 }
 
 #comicImage #firstPage {
@@ -67,7 +67,7 @@
 }
 
 #comicImage #firstPage .link {
-    background: transparent url('/comic/template_images/first_arrow.png') no-repeat center center;
+    background: transparent url('/static/template_images/first_arrow.png') no-repeat center center;
     opacity: 0.25;
 }
 
@@ -85,7 +85,7 @@
 }
 
 #comicImage #latestPage .link {
-    background: transparent url('/comic/template_images/latest_arrow.png') no-repeat center center;
+    background: transparent url('/static/template_images/latest_arrow.png') no-repeat center center;
     opacity: 0.25;
 }
 
@@ -101,7 +101,7 @@
     z-index: 4;
     font-size: 20pt;
     color: #000000;
-    background: #E9E9E9 url('/comic/template_images/ajax-loader.gif') no-repeat 7% 50%;
+    background: #E9E9E9 url('/static/template_images/ajax-loader.gif') no-repeat 7% 50%;
     border-style: none;
     border-radius: 1em;
     padding: 0.25em 0.5em 0.25em 1.5em;
