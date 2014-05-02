@@ -39,6 +39,10 @@ class Page(models.Model):
         super(Page, self).save(*args, **kwargs)
     def __unicode__(self):
         return self.title
+        
+    def __str__(self):
+        return self.__unicode__()
+        # TODO: See if there's a better way to make this work in Python 2 and 3.
 	
 class Note(models.Model):
     page = models.ForeignKey(Page)
