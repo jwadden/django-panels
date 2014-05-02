@@ -30,7 +30,7 @@ function bindPageLinks() {
 }
 
 function fetchPage(slugUrl, is_next) {
-    $('#comicPaging .loading').css('display', 'block');
+    $('#comicLoading').css('display', 'block');
 
     $.ajax({
         url: '/page-xml/' + slugUrl,
@@ -137,7 +137,7 @@ function displayPage(xmlData, is_next) {
     
     // Update paging links
     
-    $('#comicPaging .loading').css('display', 'none');
+    $('#comicLoading').css('display', 'none');
     
     if (nextSlugXml.text()) {
         nextSlug = nextSlugXml.text();

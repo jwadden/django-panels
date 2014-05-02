@@ -5,8 +5,8 @@
 #comicData #comicImage {
     position: relative;
     padding: 0;
-    height: 800px;
-    width: 500px;
+    height: auto;
+    width: auto;
     background-color: #FFFFFF;
 }
 
@@ -15,14 +15,19 @@
 }
 
 #comicData #comicImage img {
-    position: absolute;
+    display: block;
+/*    position: absolute; */
+/*    float: left; */
     z-index: 1;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #comicImage #prevPage {
     display: block;
     position: absolute;
     z-index: 2;
+    top: 0;
     left: -100px;
     width: 100px;
     height: 100%;
@@ -47,6 +52,7 @@
     display: block;
     position: absolute;
     z-index: 2;
+    top: 0;
     right: -100px;
     width: 100px;
     height: 100%;
@@ -60,6 +66,7 @@
 #comicImage #firstPage {
     display: block;
     position: absolute;
+    top: 0;
     left: -200px;
     width: 100px;
     height: 100%;
@@ -78,6 +85,7 @@
 #comicImage #latestPage {
     display: block;
     position: absolute;
+    top: 0;
     right: -200px;
     width: 100px;
     height: 100%;
@@ -93,7 +101,7 @@
     opacity: 1;
 }
 
-#comicImage .loading {
+#comicLoading {
     display: block;
     position: absolute;
     left: 35%;

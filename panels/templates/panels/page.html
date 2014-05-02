@@ -98,7 +98,7 @@
     }
     {% endif %}
     
-    #comicPaging .loading {
+    #comicLoading {
         display: none;
     }
     </style>
@@ -123,28 +123,26 @@
         </header>
         <article>
             <div id = "comicImage">
+                <div id = "firstPage">
+                    <a class = "link" href = "/page/{{ first.slug|escape }}/" rel = "start"><span class = "invisibleText">First</span></a>
+                    <span class = "noLink"><span class = "invisibleText">First</span></span>
+                </div>
+                <div id = "prevPage">
+                    <a class = "link"  href = "{% if prev %}/page/{{ prev.slug|escape }}/{% endif %}" rel = "prev"><span class = "invisibleText">Previous</span></a>
+                    <span class = "noLink"><span class = "invisibleText">Previous</span></span>
+                </div>
                 <img src = "{{ page.image.url }}" alt = "" />
-                <nav id = "comicPaging">
-                    <div id = "firstPage">
-                        <a class = "link" href = "/page/{{ first.slug|escape }}/" rel = "start"><span class = "invisibleText">First</span></a>
-                        <span class = "noLink"><span class = "invisibleText">First</span></span>
-                    </div>
-                    <div id = "prevPage">
-                        <a class = "link"  href = "{% if prev %}/page/{{ prev.slug|escape }}/{% endif %}" rel = "prev"><span class = "invisibleText">Previous</span></a>
-                        <span class = "noLink"><span class = "invisibleText">Previous</span></span>
-                    </div>
-                    <div id = "nextPage">
-                        <a class = "link"  href = "{% if next %}/page/{{ next.slug|escape }}/{% endif %}" rel = "next prefetch"><span class = "invisibleText">Next</span></a>
-                        <span class = "noLink"><span class = "invisibleText">Next</span></span>
-                    </div>
-                    <div id = "latestPage">
-                        <a class = "link"  href = "/page/{{ latest.slug|escape }}/"><span class = "invisibleText">Latest</span></a>
-                        <span class = 'noLink'><span class = "invisibleText">Latest</span></span>
-                    </div>
-                    <div class = "loading">
+                <div id = "nextPage">
+                    <a class = "link"  href = "{% if next %}/page/{{ next.slug|escape }}/{% endif %}" rel = "next prefetch"><span class = "invisibleText">Next</span></a>
+                    <span class = "noLink"><span class = "invisibleText">Next</span></span>
+                </div>
+                <div id = "latestPage">
+                    <a class = "link"  href = "/page/{{ latest.slug|escape }}/"><span class = "invisibleText">Latest</span></a>
+                    <span class = 'noLink'><span class = "invisibleText">Latest</span></span>
+                </div>
+                    <div id = "comicLoading">
                         Loading...
                     </div>
-                </nav>
             </div>
             <a id = "permalink" href = "/page/{{ page.slug|escape }}/">
                 <time datetime = "{{ page.list_date.date|date:"Y-m-d"}}" pubdate = "pubdate">{{ page.list_date.date|date:"F j, Y" }}</time>
