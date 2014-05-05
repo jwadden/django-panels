@@ -1,18 +1,14 @@
-<!DOCTYPE html>
-<html lang = "en">
-<head>
-    {% load staticfiles %}
-    <meta charset = "utf-8">
-    <title>{{ comic_title }}</title>
-    <!--[if lt IE 9]>
-        <script src = "http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <script src = "{% static "includes/jquery-1.11.0.min.js" %}" type = "text/javascript"></script>
+{% extends "panels/panels.html" %}
+{% load staticfiles %}
+{% block js_includes %}
+{{ block.super }}
     <script src = "{% static "js/panels.js" %}" type = "text/javascript"></script>
-    <link rel = "stylesheet" href = "{% static "css/panels.css" %}" />
+{% endblock %}
+{% block css_includes %}
+{{ block.super }}
     <link rel = "stylesheet" href = "{% static "css/page.css" %}" />
-    <link rel="alternate" type = "application/rss+xml" title = "RSS" href = "{{ root_url }}/rss/" />
-    <script type = "text/javascript">
+{% endblock %}
+{% block javascript %}
     var firstSlug = '{{ first.slug|escapejs }}';
 {% if prev %}
     var prevSlug = '{{ prev.slug|escapejs }}';
@@ -39,9 +35,8 @@
     {% else %}
     var displaySocialButtons = false;
     {% endif %}
-    
-    </script>
-    <style>
+{% endblock %}
+{% block css %}
     {% if prev %}
     #prevPage .link {
         display: block;
@@ -101,22 +96,8 @@
     #comicLoading {
         display: none;
     }
-    </style>
-</head>
-<body>
-    <header id = "mainHeader">
-        <h1>{{ comic_title }}</h1>
-        <h2>{{ comic_description }}</h2>
-    </header>
-    <nav id = "siteNav">
-        <ul>
-            <li><a href="{{ root_url }}archive">Archive</a></li>
-            {% for static_page in static_pages %}
-            <li><a href="{{ root_url }}{{ static_page.slug }}/">{{ static_page.title }}</a></li>
-            {% endfor %}
-            <li><a href="{{ root_url }}rss">RSS</a></li>
-        </ul>
-    </nav>
+{% endblock %}
+{% block content %}
     <section id = "comicData" class = "contentBox">
         <header>
             <h1>{{ page.title|escape }}</h1>
@@ -175,5 +156,4 @@
         </section>
     {% endfor %}
     </section>
-</body>
-</html>
+{% endblock %}
