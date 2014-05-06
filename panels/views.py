@@ -5,7 +5,7 @@ from django.shortcuts import render_to_response, get_object_or_404, render
 from django.template import RequestContext
 from panels.models import Page, Note, Tag, TagType, StaticPage
 import panels.config as config
-import json, math
+import json, math, sys
 
 def index(request):
     return page(request, is_index = True)
@@ -185,8 +185,13 @@ def get_tags():
             tag_list.append({'object' : tag, 'appearances' : tag_appearances,})
             if (tag_appearances > most_frequent_tag):
                 most_frequent_tag = tag_appearances
-        
-    for i in xrange(len(tag_list)):
+    
+    if sys.version_info < (3,):
+        tag_range = xrange(len(tag_list))
+    else:
+        tag_range = range(len(tag_list))
+    
+    for i in tag_range:
         tag_list[i]['magnitude'] = int(math.ceil(math.log(tag_list[i]['appearances']) / math.log(most_frequent_tag) * 10))
     
     return tag_list

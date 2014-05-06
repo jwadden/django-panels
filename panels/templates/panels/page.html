@@ -9,6 +9,7 @@
     <link rel = "stylesheet" href = "{% static "css/page.css" %}" />
 {% endblock %}
 {% block javascript %}
+    <script type = "text/javascript">
     var firstSlug = '{{ first.slug|escapejs }}';
 {% if prev %}
     var prevSlug = '{{ prev.slug|escapejs }}';
@@ -35,8 +36,10 @@
     {% else %}
     var displaySocialButtons = false;
     {% endif %}
+    </script>
 {% endblock %}
 {% block css %}
+    <style>
     {% if prev %}
     #prevPage .link {
         display: block;
@@ -96,6 +99,7 @@
     #comicLoading {
         display: none;
     }
+    </style>
 {% endblock %}
 {% block content %}
     <section id = "comicData" class = "contentBox">
