@@ -10,7 +10,7 @@ import json, math, sys
 def index(request):
     return page(request, is_index = True)
     
-def page(request, page_id = None, xml_string = None, is_index = False):
+def page(request, page_id = None, slug = None, xml_string = None, is_index = False):
     if (xml_string == '-xml'):
         template = 'panels/page.xml'
         content_type = 'text/xml'
@@ -29,7 +29,7 @@ def page(request, page_id = None, xml_string = None, is_index = False):
         if (is_index):
             page = latest_page
         else:
-            page = filtered_pages.get(slug__iexact = page_id)
+            page = filtered_pages.get(id = page_id)
 
     except:
         raise Http404
@@ -66,21 +66,6 @@ def page(request, page_id = None, xml_string = None, is_index = False):
             'static_pages' : static_pages,
         },
         mimetype = content_type,
-    )
-    
-def page_comments(request, page_id):
-    page = get_object_or_404(Page, pub_date__lt = datetime.now, slug__iexact = page_id)
-    
-    return render_to_response(
-        'panels/page-comments.html',
-        {
-            'page' : page,
-            'next' : '/page-comments/' + page.slug,
-            'root_url' : request.build_absolute_uri('/'),
-            'media_url' : settings.MEDIA_URL,
-        },
-        mimetype = 'text/html',
-        context_instance = RequestContext(request),
     )
     
 def archive(request, xml_string = None, selected_tag = False):

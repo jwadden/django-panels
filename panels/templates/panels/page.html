@@ -10,22 +10,28 @@
 {% endblock %}
 {% block javascript %}
     <script type = "text/javascript">
-    var firstSlug = '{{ first.slug|escapejs }}';
+    var firstUrl = '{{ first.get_absolute_url|escapejs }}';
+    var firstXmlUrl = '{{ first.get_xml_url|escapejs }}';
 {% if prev %}
-    var prevSlug = '{{ prev.slug|escapejs }}';
+    var prevUrl = '{{ prev.get_absolute_url|escapejs }}';
+    var prevXmlUrl = '{{ prev.get_xml_url|escapejs }}';
     var prevImageUrl = '{{ prev.image.url|escapejs }}';
 {% else %}
-    var prevSlug = null;
+    var prevUrl = null;
+    var prevXmlUrl = null;
     var prevImageUrl = null;
 {% endif %}
 {% if next %}
-    var nextSlug = '{{ next.slug|escapejs }}';
+    var nextUrl = '{{ next.get_absolute_url|escapejs }}';
+    var nextXmlUrl = '{{ next.get_xml_url|escapejs }}';
     var nextImageUrl = '{{ next.image.url|escapejs }}';
 {% else %}
-    var nextSlug = null;
+    var nextUrl = null;
+    var nextXmlUrl = null;
     var nextImageUrl = null;
 {% endif %}
-    var latestSlug = '{{ latest.slug|escapejs }}';
+    var latestUrl = '{{ latest.get_absolute_url|escapejs }}';
+    var latestXmlUrl = '{{ latest.get_xml_url|escapejs }}';
     
     var currentImageUrl = '{{ page.image.url|escapejs }}';
     
@@ -109,27 +115,27 @@
         <article>
             <div id = "comicImage">
                 <div id = "firstPage">
-                    <a class = "link" href = "/page/{{ first.slug|escape }}/" rel = "start"><span class = "invisibleText">First</span></a>
+                    <a class = "link" href = "{{ first.get_absolute_url|escape }}" rel = "start"><span class = "invisibleText">First</span></a>
                     <span class = "noLink"><span class = "invisibleText">First</span></span>
                 </div>
                 <div id = "prevPage">
-                    <a class = "link"  href = "{% if prev %}/page/{{ prev.slug|escape }}/{% endif %}" rel = "prev"><span class = "invisibleText">Previous</span></a>
+                    <a class = "link"  href = "{% if prev %}{{ prev.get_absolute_url|escape }}{% endif %}" rel = "prev"><span class = "invisibleText">Previous</span></a>
                     <span class = "noLink"><span class = "invisibleText">Previous</span></span>
                 </div>
                 <img src = "{{ page.image.url }}" alt = "" />
                 <div id = "nextPage">
-                    <a class = "link"  href = "{% if next %}/page/{{ next.slug|escape }}/{% endif %}" rel = "next prefetch"><span class = "invisibleText">Next</span></a>
+                    <a class = "link"  href = "{% if next %}{{ next.get_absolute_url|escape }}{% endif %}" rel = "next prefetch"><span class = "invisibleText">Next</span></a>
                     <span class = "noLink"><span class = "invisibleText">Next</span></span>
                 </div>
                 <div id = "latestPage">
-                    <a class = "link"  href = "/page/{{ latest.slug|escape }}/"><span class = "invisibleText">Latest</span></a>
+                    <a class = "link"  href = "{{ latest.get_absolute_url|escape }}"><span class = "invisibleText">Latest</span></a>
                     <span class = 'noLink'><span class = "invisibleText">Latest</span></span>
                 </div>
                     <div id = "comicLoading">
                         Loading...
                     </div>
             </div>
-            <a id = "permalink" href = "/page/{{ page.slug|escape }}/">
+            <a id = "permalink" href = "{{ page.get_absolute_url|escape }}">
                 <time datetime = "{{ page.list_date.date|date:"Y-m-d"}}" pubdate = "pubdate">{{ page.list_date.date|date:"F j, Y" }}</time>
             </a>
             

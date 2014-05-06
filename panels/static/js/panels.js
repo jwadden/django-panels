@@ -22,18 +22,18 @@ function bindPageLinks() {
     var prevPageLink = $('#prevPage a')
     var nextPageLink = $('#nextPage a')
     prevPageLink.click(function () {
-        return fetchPage(prevSlug, false);
+        return fetchPage(prevXmlUrl, false);
     });
     nextPageLink.click(function () {
-        return fetchPage(nextSlug, true);
+        return fetchPage(nextXmlUrl, true);
     });
 }
 
-function fetchPage(slugUrl, is_next) {
+function fetchPage(url, is_next) {
     $('#comicLoading').css('display', 'block');
 
     $.ajax({
-        url: '/page-xml/' + slugUrl,
+        url: url,
         success: function(xmlData) {
             displayPage(xmlData, is_next);
         },
@@ -44,15 +44,15 @@ function fetchPage(slugUrl, is_next) {
 
 function displayPage(xmlData, is_next) {
     var comicTitle = $('title', xmlData).first().text();
-    var slug = $('slug', xmlData).first().text();
+    var currentUrl = $('current-url', xmlData).first().text();
     var listDate = $('list-date', xmlData).first();
     var dateString = listDate.text();
     var dateStamp = listDate.attr('datetime');
     var notes = [];
     var tags = [];
     var newTag;
-    var nextSlugXml = $('next-slug', xmlData).first()
-    var prevSlugXml = $('prev-slug', xmlData).first()
+    nextXmlUrl = $('next-xml-url', xmlData).first().text()
+    prevXmlUrl = $('prev-xml-url', xmlData).first().text()
     var i;
     var imageContainer = $('#comicImage')
     var newNote;
@@ -75,7 +75,7 @@ function displayPage(xmlData, is_next) {
     $('#comicData header h1').html(comicTitle);
     $('#comicData time').attr('datetime', dateStamp);
     $('#comicData time').html(dateString);
-    $('#comicData #permalink').attr('href', '/page/' + slug);
+    $('#comicData #permalink').attr('href', currentUrl);
     
     // Update image
     currentImage.detach();
@@ -139,16 +139,16 @@ function displayPage(xmlData, is_next) {
     
     $('#comicLoading').css('display', 'none');
     
-    if (nextSlugXml.text()) {
-        nextSlug = nextSlugXml.text();
+    if (nextXmlUrl) {
+        nextUrl = $('next-url', xmlData).first().text()
         $('#nextPage .link').css('display', 'block');
         $('#nextPage .noLink').css('display', 'none');
-        $('#nextPage a.link').attr('href', '/page/' + nextSlug);
+        $('#nextPage a.link').attr('href', nextUrl);
 
         $('#latestPage .link').css('display', 'block');
         $('#latestPage .noLink').css('display', 'none');
     } else {
-        nextSlug = null;
+        nextUrl = null;
         $('#nextPage .link').css('display', 'none');
         $('#nextPage .noLink').css('display', 'block');
         
@@ -156,16 +156,16 @@ function displayPage(xmlData, is_next) {
         $('#latestPage .noLink').css('display', 'block');
     }
     
-    if (prevSlugXml.text()) {
-        prevSlug = prevSlugXml.text();
+    if (prevXmlUrl) {
+        prevUrl = $('prev-url', xmlData).first().text()
         $('#prevPage .link').css('display', 'block');
         $('#prevPage .noLink').css('display', 'none');
-        $('#prevPage a.link').attr('href', '/page/' + prevSlug);
+        $('#prevPage a.link').attr('href', prevUrl);
         
         $('#firstPage .link').css('display', 'block');
         $('#firstPage .noLink').css('display', 'none');
     } else {
-        prevSlug = null;
+        prevUrl = null;
         $('#prevPage .link').css('display', 'none');
         $('#prevPage .noLink').css('display', 'block');
         
@@ -175,10 +175,6 @@ function displayPage(xmlData, is_next) {
     
     // Update URL
     if (history.replaceState) {
-        history.replaceState(null, null, '/page/' + slug + '/');
-    }
-    
-    if (displaySocialButtons) { // Update Lockerz Share buttons
-        $('#lockerzLink').attr('href', 'http://www.addtoany.com/share_save?linkurl=' + encodeURIComponent(rootUrl + 'page/' + slug) + '&linkname=' + encodeURIComponent(comicTitle));
+        history.replaceState(null, null, currentUrl);
     }
 }

@@ -24,9 +24,13 @@ class Page(models.Model):
     
     def get_absolute_url(self, is_xml = False):
         if (is_xml):
-            return "/page_xml/%s-%d/" % self.slug, self.id
+            return "/page-xml/%d/%s/" % (self.id, self.slug,)
         else:
-            return "/page/%s-%d/" % self.slug, self.id
+            return "/page/%d/%s/" % (self.id, self.slug,)
+            
+    def get_xml_url(self):
+        return self.get_absolute_url(True)
+            
     def save(self, *args, **kwargs):
         # Populate the list date field
         if (self.list_date is None):
