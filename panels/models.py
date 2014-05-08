@@ -3,14 +3,22 @@ from datetime import datetime
 
 class TagType(models.Model):
     name = models.CharField('type name', max_length = 15)
+
     def __unicode__(self):
         return self.name
+
+    def __str__(self):
+        return self.__unicode__()
 
 class Tag(models.Model):
     name = models.CharField('tag name', max_length = 30)
     tag_type = models.ForeignKey(TagType)
+
     def __unicode__(self):
         return self.name
+        
+    def __str__(self):
+        return self.__unicode__()
 
 class Page(models.Model):
     slug = models.SlugField(max_length=40)
@@ -46,7 +54,6 @@ class Page(models.Model):
         
     def __str__(self):
         return self.__unicode__()
-        # TODO: See if there's a better way to make this work in Python 2 and 3.
 	
 class Note(models.Model):
     page = models.ForeignKey(Page)
@@ -63,3 +70,7 @@ class StaticPage(models.Model):
         
     def __unicode__(self):
         return self.title
+        
+    def __str__(self):
+        return self.__unicode__()
+

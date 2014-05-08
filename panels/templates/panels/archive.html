@@ -27,7 +27,7 @@
         <article>
             <ul>
             {% for page in pages %}
-                <li><a href = "/page/{{ page.slug|escape }}/" title = "{{ page.list_date.date }}">{{ page.title|escape }}</a></li>
+                <li><a href = "{{ page.get_absolute_url|escape }}" title = "{{ page.list_date.date }}">{{ page.title|escape }}</a></li>
             {% endfor %}
             </ul>
         </article>
